@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import getGameArray from "./SudokuSolver";
 
 const Game = () => {
 
