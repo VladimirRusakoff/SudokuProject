@@ -10,8 +10,25 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-function isValidPlace(grid, row, col, number) {
+type Test2 = string | number 
+
+let val: Test2 = 12;
+val = "string";
+
+
+interface Test1 {
+    name: string
+}
+
+const obj: Test1 = {name: "Tg"};
+
+function isValidPlace(grid: Array<Array<number>>, row: number, col: number, number: any) {
+    //number[][]
     // check for column
+    if (!grid) {
+        return false;
+    }
+
     for (let i = 0; i < grid.length; i++) {
         if (grid[i][col] === number) {
             return false;
@@ -41,7 +58,7 @@ function isValidPlace(grid, row, col, number) {
     return true;
 }
 
-function solve(grid) {
+function solve(grid: number[][]) {
     for (let row = 0; row < grid.length; row++) {
         for (let col = 0; col < grid.length; col++) {
             if (grid[row][col] === 0) {

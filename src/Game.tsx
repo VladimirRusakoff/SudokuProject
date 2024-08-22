@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const Game = () => {
-
-    let initArray = [[1, 0, 0, 0, 2, 3, 1, 3, 4],
+const initArray = [[1, 0, 0, 0, 2, 3, 1, 3, 4],
                     [1, 0, 0, 0, 2, 3, 1, 3, 4],
                     [1, 0, 0, 0, 2, 3, 1, 3, 4],
                     [1, 0, 0, 0, 2, 3, 1, 3, 4],
@@ -12,7 +10,16 @@ const Game = () => {
                     [1, 0, 0, 5, 2, 3, 1, 3, 4],
                     [1, 9, 0, 5, 5, 3, 1, 3, 4]]
 
+const Game = () => {
+    let flag: boolean = false
     const [gameArray, setGameArray] = useState(initArray)
+
+    useEffect(() => {
+        console.log("111")
+        return () => {
+            console.log("amoun")
+        }
+    }, [gameArray])
 
     return (
         <section>
@@ -27,11 +34,17 @@ const Game = () => {
                                             return (
                                                 <td>
                                                     <div>
-                                                        <input 
+                                                        <input
                                                         value={gameArray[indRow][indCol]} 
                                                         onChange={event => {
-                                                            console.log(`New value ${event.target.value}`)
-                                                            return event.target.value
+                                                            //console.log(`New value ${event.target.value}`)
+                                                            setGameArray(prevState => {
+                                                                let newArray = prevState.slice()
+                                                                let row = newArray[indRow]
+                                                                row.splice(indCol, 1, Number(event.target.value))
+                                                                return newArray
+                                                            }
+                                                            )
                                                         }}/>
                                                     </div>
                                                 </td>
