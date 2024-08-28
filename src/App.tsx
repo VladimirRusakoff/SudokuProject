@@ -7,8 +7,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello!</h1>
-      <button onClick={() => setShowArray((prevState => !prevState))}>Togle</button>
+      <h1>Welcome to Sudoku!</h1>
+      <h3>For starting choose the level of game and click button New Game</h3>
+      <button onClick={() => setShowArray((prevState => !prevState))}>New Game</button>
       {showArray && <Game />}
     </div>
   )

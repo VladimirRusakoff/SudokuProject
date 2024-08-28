@@ -10,18 +10,6 @@ let board = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-type Test2 = string | number 
-
-let val: Test2 = 12;
-val = "string";
-
-
-interface Test1 {
-    name: string
-}
-
-const obj: Test1 = {name: "Tg"};
-
 function isValidPlace(grid: Array<Array<number>>, row: number, col: number, number: any) {
     //number[][]
     // check for column
@@ -76,6 +64,39 @@ function solve(grid: number[][]) {
         }
     }
     return true;
+}
+
+function createPuzzle() {
+    let puzzle = getRandomSudoku(); // получаем матрицу с нулями, в котором заполнена случайная строка
+    solve(puzzle); // находим решение для полученной матрицы, т.е. нулевых элементов уже нет
+    // обнуляем случайные элементы матрицы
+    for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+            // тут логика в том, что чем меньше переменная level, тем будет больше нулей, т.е сложность судоку будет больше
+            const level = 0.3
+            if (Math.random() > level) puzzle[i][j] = 0;
+        }
+    }
+    return puzzle;
+}
+
+function getRandomSudoku() {
+    let puzzle = [];
+    // заполняем массив puzzle нулевыми массивами из нулей 
+    for (let i = 0; i < 9; i++) {
+        puzzle[i] = Array(9).fill(0);
+    }
+    // заполняем случайную строку случайными элементами
+    const randRow = Math.floor(Math.random() * 8);
+    for (let i = 0; i < 9; i++) {
+        let number = Math.floor(Math.random() * 8) + 1;
+        while (!isValidPlace(puzzle, randRow, i, number)) {
+            number = Math.floor(Math.random() * 8) + 1;
+        }
+        puzzle[randRow][i] = number;
+    }
+
+    return puzzle;
 }
 
 const getGameArray = () => {
