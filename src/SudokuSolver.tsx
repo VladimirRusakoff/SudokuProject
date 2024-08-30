@@ -66,15 +66,15 @@ function solve(grid: number[][]) {
     return true;
 }
 
-function createPuzzle() {
+export function createPuzzle(level: number) {
     let puzzle = getRandomSudoku(); // получаем матрицу с нулями, в котором заполнена случайная строка
     solve(puzzle); // находим решение для полученной матрицы, т.е. нулевых элементов уже нет
     // обнуляем случайные элементы матрицы
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             // тут логика в том, что чем меньше переменная level, тем будет больше нулей, т.е сложность судоку будет больше
-            const level = 0.3
-            if (Math.random() > level) puzzle[i][j] = 0;
+            
+            if (Math.random() > level/10) puzzle[i][j] = 0;
         }
     }
     return puzzle;
@@ -105,4 +105,18 @@ const getGameArray = () => {
 }
 
 export default getGameArray;
+
+const a = undefined // 
+const b = null // 
+const c = "test1".toLowerCase()
+const d = 3.4
+const e = NaN // обозначает не число
+const f = Number.MAX_SAFE_INTEGER
+const g = 0n // большие целые числа bigint
+const e = Symbol.for(c); // 
+const h = { a: 1 }
+const t = []
+const y = true // boolean
+
+console.log(a === b)
 
