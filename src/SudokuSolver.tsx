@@ -1,15 +1,3 @@
-let board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0]
-];
-
 function isValidPlace(grid: Array<Array<number>>, row: number, col: number, number: any) {
     //number[][]
     // check for column
@@ -18,6 +6,7 @@ function isValidPlace(grid: Array<Array<number>>, row: number, col: number, numb
     }
 
     for (let i = 0; i < grid.length; i++) {
+
         if (grid[i][col] === number) {
             return false;
         }
@@ -30,16 +19,13 @@ function isValidPlace(grid: Array<Array<number>>, row: number, col: number, numb
     }
     // check for 3*3 field
     let len = 3;
-    if (grid.length === 4) {
-        len = 2;
-    }
     let localBoxRow = row - (row % len);
     let localBoxCol = col - (col % len);
     for (let i = localBoxRow; i < localBoxRow + len; i++) {
         for (let j = localBoxCol; j < localBoxCol + len; j++) {
-            if (grid[i][j] === number) {
-                return false;
-            }
+        if (grid[i][j] === number) {
+            return false;
+        }
         }
     }
     //
@@ -66,18 +52,22 @@ function solve(grid: number[][]) {
     return true;
 }
 
-export function createPuzzle(level: number) {
+export function createSolvedArray() {
     let puzzle = getRandomSudoku(); // получаем матрицу с нулями, в котором заполнена случайная строка
     solve(puzzle); // находим решение для полученной матрицы, т.е. нулевых элементов уже нет
+
+    return puzzle;
+}
+
+export function createPuzzle(grid: number[][], level: number) {
     // обнуляем случайные элементы матрицы
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             // тут логика в том, что чем меньше переменная level, тем будет больше нулей, т.е сложность судоку будет больше
-            
-            if (Math.random() > level/10) puzzle[i][j] = 0;
+            if (Math.random() < level/6) grid[i][j] = 0;
         }
     }
-    return puzzle;
+    return grid;
 }
 
 function getRandomSudoku() {
@@ -86,37 +76,77 @@ function getRandomSudoku() {
     for (let i = 0; i < 9; i++) {
         puzzle[i] = Array(9).fill(0);
     }
-    // заполняем случайную строку случайными элементами
-    const randRow = Math.floor(Math.random() * 8);
-    for (let i = 0; i < 9; i++) {
-        let number = Math.floor(Math.random() * 8) + 1;
-        while (!isValidPlace(puzzle, randRow, i, number)) {
-            number = Math.floor(Math.random() * 8) + 1;
+    // выбираем случайно метод рандомизации: 
+    // 1 - выбираем случайную строку 
+    // 2 - выбираем случайный столбец
+    // 3 - выбираем случайные элементы по диагонали
+    const methodOfRandoming = Math.floor(Math.random() * 2);
+    if (methodOfRandoming === 0) {
+        // заполняем рандомную строку
+        const randRow = Math.floor(Math.random() * 8);
+        Array(9).fill(1).forEach((elem, ind) => {
+            let numb = Math.floor(Math.random() * 8) + 1;
+            for(let k = 0; k < 9; k++) {
+                if (isValidPlace(puzzle, randRow, ind, numb)) {
+                    puzzle[randRow][ind] = numb
+                    break
+                } else {
+                    numb++
+                    if (numb === 10) {
+                        numb = 1
+                    }
+                }
+            }
+        });
+        } else if (methodOfRandoming === 1) {
+        // заполняем рандомную колонку
+        const randCol = Math.floor(Math.random() * 8);
+        Array(9).fill(1).forEach((elem, ind) => {
+            let numb = Math.floor(Math.random() * 8) + 1;
+            for (let k = 0; k < 9; k++) {
+                if (isValidPlace(puzzle, ind, randCol, numb)) {
+                    puzzle[ind][randCol] = numb
+                    break
+                } else {
+                    numb++
+                    if (numb === 10) {
+                    numb = 1
+                    }
+                }
+            }
+        })
+        } else { // if (methodOfRandoming === 2)
+            // заполняем рандомными элементами по диагонали
+            Array(9).fill(1).forEach((elem, ind) => {
+                let numb = Math.floor(Math.random() * 8) + 1;
+                for (let k = 0; k < 9; k++) {
+                    if (isValidPlace(puzzle, ind, ind, numb)) {
+                        puzzle[ind][ind] = numb
+                        break
+                    } else {
+                        numb++
+                        if (numb === 10) {
+                        numb = 1
+                        }
+                    }
+                }
+            })
         }
-        puzzle[randRow][i] = number;
-    }
 
     return puzzle;
 }
 
-const getGameArray = () => {
-    //solve(board);
-    return board;
-}
+//const a = undefined // 
+//const b = null // 
+//const c = "test1".toLowerCase()
+//const d = 3.4
+//const e = NaN // обозначает не число
+//const f = Number.MAX_SAFE_INTEGER
+//const g = 0n // большие целые числа bigint
+//const e = Symbol.for(c); // 
+//const h = { a: 1 }
+//const t = []
+//const y = true // boolean
 
-export default getGameArray;
-
-const a = undefined // 
-const b = null // 
-const c = "test1".toLowerCase()
-const d = 3.4
-const e = NaN // обозначает не число
-const f = Number.MAX_SAFE_INTEGER
-const g = 0n // большие целые числа bigint
-const e = Symbol.for(c); // 
-const h = { a: 1 }
-const t = []
-const y = true // boolean
-
-console.log(a === b)
+//console.log(a === b)
 

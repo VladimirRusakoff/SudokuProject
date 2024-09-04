@@ -1,25 +1,19 @@
 import { useEffect, useState } from "react";
 import { createPuzzle } from './SudokuSolver';
-
-const initArray = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 1, 0, 0, 0, 0, 0, 0],
-    [0, 0, 2, 0, 0, 0, 0, 0, 0],
-    [0, 0, 3, 0, 0, 0, 0, 0, 0],
-    [0, 0, 4, 0, 0, 0, 0, 0, 0]
-];
+import { createSolvedArray } from './SudokuSolver';
 
 interface IProps {
-    level: number
+    level: number,
+    initArray: number[][],
+    solvedArray: number[][]
 }
 
-const Game = ({level}: IProps) => {
+const Game = (props: IProps) => {
     //console.log(createPuzzle(level))
     //const [solvedArray, setSolvedArray] = useState(() => createSolvedPuzzle())
+    //
+    const [solvedArray, setSolvedArray] = useState(createSolvedArray()) 
+    const [initArray, setInitArray] = useState(createPuzzle(solvedArray, props.level))
     const [gameArray, setGameArray] = useState(initArray)
 
     useEffect(() => {
@@ -42,7 +36,7 @@ const Game = ({level}: IProps) => {
                                             return (
                                                 <td>
                                                     <div>
-                                                        <input disabled={gameArray[indRow][indCol] !== 0}
+                                                        <input disabled={initArray[indRow][indCol] !== 0}
                                                         value={gameArray[indRow][indCol]} 
                                                         onChange={event => {
                                                             //console.log(`New value ${event.target.value}`)
