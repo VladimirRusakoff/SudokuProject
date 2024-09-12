@@ -52,7 +52,7 @@ function solve(grid: number[][]) {
     return true;
 }
 
-export function createSolvedArray() {
+export function createSolvedArray(): number[][] {
     let puzzle = getRandomSudoku(); // получаем матрицу с нулями, в котором заполнена случайная строка
     solve(puzzle); // находим решение для полученной матрицы, т.е. нулевых элементов уже нет
 
@@ -64,13 +64,15 @@ export function createPuzzle(grid: number[][], level: number) {
     for (let i = 0; i < 9; i++) {
         for (let j = 0; j < 9; j++) {
             // тут логика в том, что чем меньше переменная level, тем будет больше нулей, т.е сложность судоку будет больше
-            if (Math.random() < level/6) grid[i][j] = 0;
+            if (Math.random() < level/6) {
+                grid[i][j] = 0;
+            }
         }
     }
     return grid;
 }
 
-function getRandomSudoku() {
+function getRandomSudoku(): number[][] {
     let puzzle = [];
     // заполняем массив puzzle нулевыми массивами из нулей 
     for (let i = 0; i < 9; i++) {
@@ -110,7 +112,7 @@ function getRandomSudoku() {
                 } else {
                     numb++
                     if (numb === 10) {
-                    numb = 1
+                        numb = 1
                     }
                 }
             }
@@ -126,7 +128,7 @@ function getRandomSudoku() {
                     } else {
                         numb++
                         if (numb === 10) {
-                        numb = 1
+                            numb = 1
                         }
                     }
                 }
