@@ -1,5 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
+  font-family: sans-serif;
 }
 
 .table-wrapper {
@@ -14,7 +20,7 @@ body {
 .th,
 td {
   white-space: nowrap;
-  padding: 0.5rem;
+  padding: 3px;
 }
 
 th {
